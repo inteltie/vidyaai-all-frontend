@@ -29,6 +29,9 @@ import { Upload } from "@aws-sdk/lib-storage";
 import RecorderErrorMessage from "./RecorderErrorMessage/RecorderErrorMessage";
 import { handleErrorResponse } from "@/helper/Helper";
 import { AppContextProvider } from "@/app/main";
+import { BASE_URL } from "@/constants/apiconfig";
+import Cookies from "js-cookie";
+import { replaceStringQutes } from "@/api/axiosAPIInstance";
 
 const LectureRecorder = ({ open, closeDrawer, recordingData }) => {
   const Bucket = process.env.NEXT_PUBLIC_AWS_BUCKET;
@@ -62,6 +65,7 @@ const LectureRecorder = ({ open, closeDrawer, recordingData }) => {
   const [uploadSpeed, setUploadSpeed] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [isStopsubmit, setIsStopsubmit] = useState(false);
+  const [selectedLng,setSelectedLng]=useState("en")
 
   const [startAndEndTime, setStartAndEndTime] = useState({
     start_time: currentTimeLocal,
@@ -286,6 +290,7 @@ const LectureRecorder = ({ open, closeDrawer, recordingData }) => {
       await mergeChunks();
     } else {
       try {
+        let accessToken = replaceStringQutes(Cookies.get("ACCESS_TOKEN"));
         if (selectedOption === "other") {
           const formData = new FormData();
           formData.append(
@@ -294,8 +299,21 @@ const LectureRecorder = ({ open, closeDrawer, recordingData }) => {
           );
           formData.append("video_src", "OTHERS");
           await uploadVideoToS3(videoAttachment[0]);
-          await uploadS3Video(recordingData.id, formData);
-          // await extractingAudio(recordingData.id);
+          // await uploadS3Video(recordingData.id, formData);
+
+          await axios.patch(
+            `${BASE_URL}/api/v1/lecture/${recordingData.id}/upload_media/`,
+            formData,
+            {
+              headers: { 
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept-Language": selectedLng || "en",
+                "Authorization": `Bearer ${accessToken}`
+              }
+            }
+          );
+          
+
         } else if (selectedOption === "vidya") {
           const formData = new FormData();
           formData.append("video_src", "VIDYAAI");
@@ -304,8 +322,20 @@ const LectureRecorder = ({ open, closeDrawer, recordingData }) => {
             audioAttachment[0],
             `${recordingData.id}.wav`
           );
-          await uploadS3Video(recordingData.id, formData);
+          // await uploadS3Video(recordingData.id, formData);
           await uploadVideoToS3(videoAttachment[0]);
+
+          await axios.patch(
+            `${BASE_URL}/api/v1/lecture/${recordingData.id}/upload_media/`,
+            formData,
+            {
+              headers: { 
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept-Language": selectedLng || "en",
+                "Authorization": `Bearer ${accessToken}`
+              }
+            }
+          );
         }
 
         setLectureStoped({
@@ -832,6 +862,7 @@ const LectureRecorder = ({ open, closeDrawer, recordingData }) => {
               selectedOption={selectedOption}
               setSelectedOption={setSelectedOption}
               audioChunks={audioChunk}
+              setSelectedLng={setSelectedLng}
             />
           </Grid>
 

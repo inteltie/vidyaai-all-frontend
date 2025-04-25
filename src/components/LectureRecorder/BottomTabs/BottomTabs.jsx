@@ -26,7 +26,8 @@ const BottomTabs = ({
   setAudioAttachment,
   selectedOption,
   setSelectedOption,
-  audioChunks
+  audioChunks,
+  setSelectedLng
 }) => {
   const downloadZip = async () => {
     const zip = new JSZip();
@@ -59,6 +60,7 @@ const BottomTabs = ({
           setAudioAttachment={setAudioAttachment}
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
+          setSelectedLng={setSelectedLng}
         />
       )}
 

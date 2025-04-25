@@ -17,6 +17,9 @@ import {
   FormControl,
   RadioGroup,
   Box,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { AppContextProvider } from "@/app/main";
 
@@ -29,6 +32,7 @@ const AddVideoFile = ({
   setAudioAttachment,
   selectedOption,
   setSelectedOption,
+  setSelectedLng
 }) => {
   const { isTrialAccount } = useContext(AppContextProvider);
   const inputVideoRef = useRef(null);
@@ -36,6 +40,7 @@ const AddVideoFile = ({
   const [zipFile, setZipFile] = useState(null);
   const [error, setError] = useState({});
   const [open, setOpen] = useState(false);
+  const [language, setLanguage] = useState('en');
 
   const handleOpen = () => setOpen(!open);
   const handleClose = () => {
@@ -122,6 +127,7 @@ const AddVideoFile = ({
           }}
         >
           <CardContent>
+            <Box sx={{display:'flex',justifyContent:"space-between",alignItems:'center'}}>
             <Typography
               variant="h5"
               color="primary"
@@ -130,11 +136,41 @@ const AddVideoFile = ({
             >
               Add Video or ZIP File
             </Typography>
+                        {/* Language Dropdown */}
+              <Box >
+              <FormControl >
+                <InputLabel id="language-label">Language</InputLabel>
+                <Select
+                  labelId="language-label"
+                  id="language-select"
+                  value={language}
+                  sx={{p:0,
+
+                    "& .MuiOutlinedInput-input":{
+                      p:"7px 10px",
+                      minWidth:"70px"
+                    }
+                  }}
+                  label="Language"
+                  onChange={(e) => {
+                    setLanguage(e.target.value)
+                    setSelectedLng(e.target.value)
+                  }}
+                >
+                  <MenuItem value="en">English</MenuItem>
+                  <MenuItem value="hi">हिन्दी</MenuItem>
+                  <MenuItem value="mr">मराठी</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+
+            </Box>
             <Typography variant="body2" color="textSecondary" gutterBottom>
               Upload video files directly or a ZIP file containing video and
               audio.
             </Typography>
-            <Typography variant="subtitle1" fontWeight="bold">
+
+            <Typography variant="subtitle1" fontWeight="bold" sx={{ mt: 3 }}>
               Select Video Source:
             </Typography>
             <FormControl component="fieldset" sx={{ marginTop: 2 }}>
@@ -151,7 +187,6 @@ const AddVideoFile = ({
                   control={<Radio />}
                   label="Vidya AI ZIP"
                 />
-                {/* <FormControlLabel value="youtube" control={<Radio />} label="YouTube Link" /> */}
                 <FormControlLabel
                   value="other"
                   control={<Radio />}
