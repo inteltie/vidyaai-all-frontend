@@ -53,9 +53,7 @@ const CalendarComponent = ({ maxHeight = "585px" }) => {
           currentMonth[1],
           currentMonth[0]
         );
-        console.log("Response",response)
         apiResponse = response?.data?.data;
-        console.log("API Response",apiResponse)
       } else {
         const response = await getAllUpcommingByDate(
           currentMonth[1],

@@ -67,7 +67,6 @@ const StudentAssignment = ({ selectedOptions }) => {
         5,
         true
       );
-      console.log(response?.data?.data);
       setData(response?.data?.data?.data);
       setTotalPage(response?.data?.data?.total);
     } catch (error) {

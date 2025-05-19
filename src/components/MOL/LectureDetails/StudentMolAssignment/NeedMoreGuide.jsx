@@ -43,7 +43,7 @@ export default function NeedMoreGuide({ assignmentId, open, setOpen }) {
     setLoading(true);
     try {
       const response = await getGuidance(assignmentId);
-      console.log("Response", response);
+      
       const parsedData =
         typeof response?.data?.data === "string"
           ? JSON?.parse(response?.data?.data)
@@ -56,7 +56,6 @@ export default function NeedMoreGuide({ assignmentId, open, setOpen }) {
     }
   };
 
-  console.log("Data", data);
 
   const handleClose = () => {
     setOpen(false);
@@ -73,7 +72,6 @@ export default function NeedMoreGuide({ assignmentId, open, setOpen }) {
   const handleStepClick = (index) => {
     setShowStepDetails(true);
     setStepIndex(index);
-    console.log("Status of showStepDetails:", showStepDetails);
   };
   // Function to render the carousel for `road_map_guide`
   const renderCarousel = (steps) => {
@@ -220,7 +218,6 @@ export default function NeedMoreGuide({ assignmentId, open, setOpen }) {
       const value = data[key];
 
       if (key === "steps_with_context") {
-        console.log("Value for steps with context", value);
         return (
           <Box key={key} sx={{ marginBottom: "16px" }}>
             <Typography variant="h6" gutterBottom textAlign={"center"}>

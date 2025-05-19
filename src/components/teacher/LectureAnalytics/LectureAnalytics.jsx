@@ -123,9 +123,6 @@ const LectureAnalytics = ({ lectureId, lang }) => {
     return activityPercentage;
   };
 
-
-  console.log("analytics?.main_topics : ",analytics?.main_topics)
-
   const renderPercentage = (title, percentage) => (
     <Box sx={{ pt: 2 }}>
       <Box sx={{ display: "flex", alignItems: "center" }}>

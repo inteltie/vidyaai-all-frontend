@@ -146,7 +146,6 @@ const ClassWiseStudentRanking = ({ selectedOptions }) => {
       statusTabValue === 0
         ? data.active_students_gradewise
         : data.inactive_students_gradewise;
-    {console.log("Active gradewise", gradewiseData)}
     return Object.entries(gradewiseData || {})?.map(([key, value]) => ({
       name: key,
       value,

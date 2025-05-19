@@ -241,7 +241,6 @@ const LectureAssignment = ({ id, isDarkMode, class_ID, isEdit, language }) => {
     { label: t("Not Assigned"), color: "#d1cc3f" },
   ];
 
-  console.log("assignments : ",assignments)
 
   return (
     <>
