@@ -42,6 +42,7 @@ import AssignmentTextFormat from "@/commonComponents/TextWithMath/AssignmentText
 import { useTranslations } from "next-intl";
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
+import { useLocale } from "next-intl";
 
 export default function NewChatbot({ suggestionInput, setIsOpenChatBot }) {
   const chatbotRef = useRef();
@@ -243,6 +244,7 @@ export default function NewChatbot({ suggestionInput, setIsOpenChatBot }) {
     setIsLoading(false);
   };
 
+  const locale = useLocale()
   return (
     <Box
       sx={{
@@ -636,7 +638,7 @@ export default function NewChatbot({ suggestionInput, setIsOpenChatBot }) {
             </Grid>
           </>
         )}
-        {showKeyboard && (
+        {showKeyboard && locale !== "en" && (
           <div
             ref={keyboardRef}
             style={{
