@@ -133,13 +133,13 @@ const LectureMCQ = ({ id, isDarkMode, language }) => {
                      sx={{marginTop:0.2}}
                       variant="span"
                     >
-                    <TextWithMath text={locale==='hi' ? item?.question : item?.question_eng} />{" "}
+                    <TextWithMath text={item?.question} />{" "}
                     </Typography>
                   </Box>
                   <List sx={{ padding: 0 }}>
                     {" "}
                     {/* Remove padding for nested list */}
-                    {parseOptions(locale==='hi' ? item?.options : item?.options_eng)?.map((option, index) => (
+                    {parseOptions(item?.options)?.map((option, index) => (
                       <ListItem key={index} sx={{ padding: 0 }}>
                         {" "}
                         {/* Remove padding for nested items */}
@@ -180,7 +180,7 @@ const LectureMCQ = ({ id, isDarkMode, language }) => {
                      sx={{marginTop:0.4}}
                       variant="span"
                     >
-                    <TextWithMath text={locale==='hi' ? item?.answer : item?.answer_eng} />
+                    <TextWithMath text={item?.answer} />
                     </Typography>
 
                   </Box>

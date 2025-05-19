@@ -96,7 +96,7 @@ const HighlightsComponent = ({
     try {
       const apiResponse = await getLectureHighlights(lectureId);
       const decisionData = apiResponse?.data?.data;
-      const jsonData = safeParseJSON(locale==='hi' ? decisionData?.highlight_text : decisionData?.highlight_text_eng)
+      const jsonData = safeParseJSON(decisionData?.highlight_text)
       setDecisions(jsonData);
     } catch (error) {
       console.error("Error fetching meeting decision:", error);

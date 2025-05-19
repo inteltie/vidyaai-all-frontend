@@ -115,7 +115,7 @@ const SummaryComponent = ({
       const summaryResponse = await getLectureSummary(lectureId);
       const summaryData = summaryResponse?.data?.data;
 
-      const jsonData = safeParseJSON(locale==='hi' ? summaryData?.summary_text : summaryData?.summary_text_eng)
+      const jsonData = safeParseJSON(summaryData?.summary_text)
 
       setSummaryId(summaryData?.id);
       setSummary(jsonData);

@@ -17,7 +17,7 @@ const LectureQuestions = ({ id, isDarkMode, language }) => {
     const fetchQuestions = async () => {
       try {
         const data = await getLectureQuestion(id);
-        let lectureQuestion = locale==='hi' ? data?.data?.question_text : data?.data?.question_text_eng;
+        let lectureQuestion = data?.data?.question_text;
 
         // Parse the question_text field
         const parsedQuestions = JSON.parse(lectureQuestion);

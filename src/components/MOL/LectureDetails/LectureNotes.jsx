@@ -46,7 +46,7 @@ const LectureNotes = ({
     const fetchLectureNotes = async () => {
       try {
         const response = await getLectureNotes(id);
-        setNotes(JSON.parse(locale==='hi'? response?.data.lecture_note :  response?.data.lecture_note_eng));
+        setNotes(JSON.parse(response?.data.lecture_note));
       } catch (err) {
         setError(err);
       } finally {

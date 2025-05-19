@@ -183,13 +183,13 @@ const StudentMCQ = ({ id, isDarkMode, language }) => {
                   <Typography sx={{ textAlign: "left", marginRight: 1 }}>
                     {questionIndex + 1}.
                   </Typography>
-                  <TextWithMath text={locale==='hi' ? item?.question : item?.question_eng} />
+                  <TextWithMath text={item?.question} />
                 </Box>
                 <RadioGroup
                   value={selectedAnswers[item?.id] || ""}
                   onChange={(e) => handleOptionChange(item?.id, e.target.value)}
                 >
-                  {parseOptions(locale==='hi' ? item?.options : item?.options_eng)?.map((option, index) => (
+                  {parseOptions(item?.options)?.map((option, index) => (
                     <FormControlLabel
                       key={index}
                       value={option}

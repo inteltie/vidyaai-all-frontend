@@ -501,7 +501,7 @@ const AssignmentItem = ({
                 {String.fromCharCode(65 + index)}.&nbsp;
               </Typography>
               <Box mt={0.3}>
-                <AssignmentTextFormat text={locale==='hi'?assignment.assignment_text:assignment.assignment_text_eng} />
+                <AssignmentTextFormat text={assignment.assignment_text} />
               </Box>
             </Box>
             <Box>
