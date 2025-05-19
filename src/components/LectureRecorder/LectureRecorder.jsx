@@ -259,7 +259,7 @@ const LectureRecorder = ({ open, closeDrawer, recordingData }) => {
             responseURL
           );
           formData.append("video_src", "OTHERS");
-          await uploadS3Video(recordingData.id, formData);
+          // await uploadS3Video(recordingData.id, formData);
           // await extractingAudio(recordingData.id);
           await axios.patch(
             `${BASE_URL}/api/v1/lecture/${recordingData.id}/upload_media/`,
