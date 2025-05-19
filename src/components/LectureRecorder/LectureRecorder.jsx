@@ -27,6 +27,7 @@ import { BASE_URL } from "@/constants/apiconfig";
 import Cookies from "js-cookie";
 import usePresignedUrl from "@/hooks/usePresignedUrl";
 import usefileUploader from "@/hooks/usefileUploader";
+import { replaceStringQutes } from "@/helper/Helper";
 
 const LectureRecorder = ({ open, closeDrawer, recordingData }) => {
   const {isTrialAccount,s3FileName}=useContext(AppContextProvider)

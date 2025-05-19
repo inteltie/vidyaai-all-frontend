@@ -3,6 +3,7 @@ import config from "../../config";
 import { isExpired } from "react-jwt";
 import axiosAPIInstanceAuth from "./axiosAPIInstanceAuth";
 import Cookies from 'js-cookie';
+import { replaceStringQutes } from "@/helper/Helper";
 
 const baseURL = config.VIDYAAI_API;
 

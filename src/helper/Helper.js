@@ -1,3 +1,5 @@
+export const replaceStringQutes = (token) => token ? token.replace(/"/g, '') : '';
+
 export function capitalizeWords(str) {
   return str?.replace(/\b\w/g, function (char) {
     return char?.toUpperCase();
