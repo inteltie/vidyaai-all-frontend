@@ -5,6 +5,7 @@ import { Box, Typography, IconButton, Paper, useTheme } from "@mui/material";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import { useThemeContext } from "@/hooks/ThemeContext";
 import { useTranslations } from "next-intl";
+import { hasData } from "@/helper/Helper";
 
 const COLORS = [
   "#0088FE",
@@ -121,6 +122,9 @@ const LectureAnalytics = ({ lectureId, lang }) => {
 
     return activityPercentage;
   };
+
+
+  console.log("analytics?.main_topics : ",analytics?.main_topics)
 
   const renderPercentage = (title, percentage) => (
     <Box sx={{ pt: 2 }}>
@@ -309,7 +313,7 @@ const LectureAnalytics = ({ lectureId, lang }) => {
       )}
       {analytics?.main_topics?.length > 0 && (
         <Box maxHeight={300} sx={{ overflowY: "auto" }}>
-          {analytics?.main_topics?.map((val, index) => (
+          {hasData(analytics?.main_topics) && Array.isArray(analytics?.main_topics) && analytics?.main_topics?.map((val, index) => (
             <Typography
               key={index}
               variant="span"

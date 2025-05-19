@@ -284,3 +284,32 @@ export const replaceSpeaker = (text) => {
     return match;
   });
 }
+
+export function hasData(value) {
+    // null or undefined
+    if (value == null) return false;
+  
+    // strings: trim whitespace
+    if (typeof value === "string") {
+      return value.trim().length > 0;
+    }
+  
+    // arrays
+    if (Array.isArray(value)) {
+      return value.length > 0;
+    }
+  
+    // Map or Set
+    if (value instanceof Map || value instanceof Set) {
+      return value.size > 0;
+    }
+  
+    // plain objects
+    if (typeof value === "object") {
+      return Object.keys(value).length > 0;
+    }
+  
+    // numbers, booleans, functions, symbols, etc.
+    return true;
+  }
+  
