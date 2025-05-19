@@ -926,9 +926,9 @@ const AssignmentItem = ({
                 text={
                  locale === 'hi' ? (assignment.assignment_text?.length > 200
                     ? `${assignment.assignment_text?.slice(0, 200)}...`
-                    : assignment.assignment_text) : (assignment.assignment_text_eng?.length > 200
-                    ? `${assignment.assignment_text_eng?.slice(0, 200)}...`
-                    : assignment.assignment_text_eng)
+                    : assignment.assignment_text) : (assignment.assignment_text?.length > 200
+                    ? `${assignment.assignment_text?.slice(0, 200)}...`
+                    : assignment.assignment_text)
                 }
               />
             </Box>

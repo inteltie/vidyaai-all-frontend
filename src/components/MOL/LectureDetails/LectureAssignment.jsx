@@ -241,6 +241,8 @@ const LectureAssignment = ({ id, isDarkMode, class_ID, isEdit, language }) => {
     { label: t("Not Assigned"), color: "#d1cc3f" },
   ];
 
+  console.log("assignments : ",assignments)
+
   return (
     <>
       {loading ? (
@@ -540,7 +542,7 @@ const LectureAssignment = ({ id, isDarkMode, class_ID, isEdit, language }) => {
                       /> */}
                       <Box>
                         <AssignmentTextFormat
-                          text={language==='hi' ? assignment?.assignment_text : assignment?.assignment_text_eng}
+                          text={assignment?.assignment_text}
                         />
                       </Box>
                     </Box>
@@ -599,10 +601,7 @@ const LectureAssignment = ({ id, isDarkMode, class_ID, isEdit, language }) => {
                         <AssignmentTextFormat
                           text={
                             assignment?.assignment_text?.length > 200
-                              ? `${language==='hi' ? assignment?.assignment_text?.slice(
-                                  0,
-                                  200
-                                ) : assignment?.assignment_text_eng?.slice(
+                              ? `${assignment?.assignment_text?.slice(
                                   0,
                                   200
                                 )}...`

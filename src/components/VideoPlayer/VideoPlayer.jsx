@@ -131,7 +131,7 @@ const VideoPlayer = ({ id, duration = 1e101, lang }) => {
       const apiResponse = await getBreakpoint(id);
       const breakPoint =
         apiResponse?.data?.data?.break_point?.length > 0
-          ? JSON.parse(locale ==='hi' ? apiResponse?.data?.data?.break_point_eng : apiResponse?.data?.data?.break_point)
+          ? JSON.parse(apiResponse?.data?.data?.break_point)
           : [];
       setMarkers(breakPoint);
       setSuggestionData(
