@@ -17,12 +17,11 @@ import { decodeToken } from "react-jwt";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { BASE_URL_MEET } from "@/constants/apiconfig";
-import { GetObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { AwsSdk } from "@/hooks/AwsSdk";
 import { useLocale } from "next-intl";
+import usePresignedUrl from "@/hooks/usePresignedUrl";
 
-const VideoPlayer = ({ id, duration=1e101, lang }) => {
+const VideoPlayer = ({ id, duration = 1e101, lang }) => {
+  const { fetchPresignedUrl } = usePresignedUrl()
   const userDetails = decodeToken(Cookies.get("ACCESS_TOKEN"));
   const [markers, setMarkers] = useState([]);
   const [suggestionData, setSuggestionData] = useState([]);
@@ -31,25 +30,21 @@ const VideoPlayer = ({ id, duration=1e101, lang }) => {
   const [videoUrl,setVideoUrl]=useState("")
   const locale = useLocale()
 
-  useEffect(()=>{
-    getSignedUrlForObject()
-  },[id])
+  useEffect(() => {
+    getSignedUrlForObject();
+  }, [id]);
 
   const getSignedUrlForObject = async () => {
-    const { s3 } = AwsSdk();
-    const Bucket = process.env.NEXT_PUBLIC_AWS_BUCKET;
-  
-    const params = {
-      Bucket,
-      Key: `videos/${id}.mp4`,
+    const data = {
+      file_name: `${id}.mp4`,
+      file_type: "video/mp4",
+      operation: "download",
+      folder: "videos/",
     };
-    
-    console.log("params : ", params);
   
     try {
-      const command = new GetObjectCommand(params);
-      const signedUrl = await getSignedUrl(s3, command, { expiresIn: 60 * 60 * 3 });
-      setVideoUrl(signedUrl)
+      const signedUrl = await fetchPresignedUrl(data)
+      setVideoUrl(signedUrl?.presigned_url)
     } catch (error) {
       console.error(error);
       return null;
@@ -168,7 +163,7 @@ const VideoPlayer = ({ id, duration=1e101, lang }) => {
         videoUrl={videoUrl}
       />
     ),
-    [markers, id, duration,videoUrl]
+    [markers, id, duration, videoUrl]
   );
 
   return (
@@ -195,7 +190,7 @@ const VideoPlayer = ({ id, duration=1e101, lang }) => {
         </Box>
       ) : (
         <Box sx={{ width: "100%", height: "90%" }}>
-          {videoUrl? breakpointPlayer :""}
+          {videoUrl ? breakpointPlayer : ""}
         </Box>
       )}
 
@@ -215,13 +210,12 @@ export const BreakpointPlayer = ({
   id,
   onPlayerReady,
   duration,
-  videoUrl
+  videoUrl,
 }) => {
   const userDetails = decodeToken(Cookies.get("ACCESS_TOKEN"));
   const videoRef = useRef(null);
   const playerRef = useRef(null);
   const updateDataTriggered = useRef(false);
-
 
   const updateData = async () => {
     try {
@@ -300,10 +294,7 @@ export const BreakpointPlayer = ({
         "playbackRates" : [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75]
       }'
     >
-      <source
-        src={videoUrl}
-        type="video/mp4"
-      />
+      <source src={videoUrl} type="video/mp4" />
     </video>
   );
 };
@@ -330,7 +321,7 @@ export const Suggestion = ({ suggestionData }) => {
         mx: "auto",
       }}
     >
-      <Grid item xs={12} sm={0.6} py={2}>
+       <Grid item xs={12} sm={0.6} py={2}>
         {uniqueTitles.length > 0 && (
           <Button
             onClick={() => scrollContainer("left")}
@@ -352,7 +343,7 @@ export const Suggestion = ({ suggestionData }) => {
             ←
           </Button>
         )}
-      </Grid>
+      </Grid> 
       <Grid
         item
         xs={12}

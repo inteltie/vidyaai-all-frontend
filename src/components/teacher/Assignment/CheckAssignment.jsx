@@ -38,9 +38,7 @@ import "@react-pdf-viewer/default-layout/lib/styles/index.css";
 import AudioPlayer from "@/components/AudioPlayer/AudioPlayer";
 import AssignmentTextFormat from "@/commonComponents/TextWithMath/AssignmentTextFormat";
 import { useTranslations } from "next-intl";
-import { GetObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { AwsSdk } from "@/hooks/AwsSdk";
+import usePresignedUrl from "@/hooks/usePresignedUrl";
 
 const CheckAssignment = ({ assignment, index, fetchAssignmentAnswer }) => {
   const { isDarkMode, primaryColor, secondaryColor } = useThemeContext();
@@ -50,6 +48,7 @@ const CheckAssignment = ({ assignment, index, fetchAssignmentAnswer }) => {
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const { fetchPresignedUrl } = usePresignedUrl()
 
   const isChecked = assignment?.is_checked || false;
 
@@ -138,23 +137,24 @@ const CheckAssignment = ({ assignment, index, fetchAssignmentAnswer }) => {
     }
   };
 
+
   const handleSelectFile = async (fileLink)=>{
-    console.log("fileLink : ",fileLink)
     const keyPath = new URL(fileLink).pathname.slice(1);
     const decodeKey = decodeURIComponent(keyPath)
-    
-    const { s3 } = AwsSdk();
-    const Bucket = process.env.NEXT_PUBLIC_AWS_BUCKET;
-  
-    const params = {
-      Bucket,
-      Key: decodeKey,
-    };
+    const idx = decodeKey.lastIndexOf("/");
+    const file1 = decodeKey.substring(0, idx + 1);
+    const file2 = decodeKey.substring(idx + 1);
 
+    const data = {
+      file_name: file2,
+      file_type: "",
+      operation: "download",
+      folder: file1,
+    };
+    
     try{
-      const command = new GetObjectCommand(params);
-      const signedUrl = await getSignedUrl(s3, command, { expiresIn: 60 * 60 * 3 });
-      setSelectedFile(signedUrl)
+      const signedUrl = await fetchPresignedUrl(data)
+      setSelectedFile(signedUrl?.presigned_url)
     }catch(error){
       console.error(error)
     }
