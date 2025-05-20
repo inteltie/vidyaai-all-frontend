@@ -101,7 +101,7 @@ const StudentMCQ = ({ id, isDarkMode, language }) => {
     try {
       const formData = [
         {
-          your_answer: selectedAnswers[questionId],
+          selected_option: selectedAnswers[questionId],
           lecture: id,
           answered_by: studentID,
           quiz: questionId,
@@ -187,12 +187,12 @@ const StudentMCQ = ({ id, isDarkMode, language }) => {
                 </Box>
                 <RadioGroup
                   value={selectedAnswers[item?.id] || ""}
-                  onChange={(e) => handleOptionChange(item?.id, e.target.value)}
+                  onChange={(e) => handleOptionChange(item?.id, parseInt(e.target.value))}
                 >
                   {parseOptions(item?.options)?.map((option, index) => (
                     <FormControlLabel
                       key={index}
-                      value={option}
+                      value={index + 1}
                       control={<Radio />}
                       label={
                         <Box
